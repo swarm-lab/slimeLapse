@@ -10,7 +10,7 @@ slimeLapse <- function(cams, wemo) {
 
   times <- now() + seq(0, duration, interval) * 1000
 
-  pb <- progress::progress_bar$new(total = 100, format = "Progress [:bar] :percent")
+  pb <- progress::progress_bar$new(total = length(times), format = "Progress [:bar] :percent")
 
   for (i in 1:length(times)) {
     magicLamp::wemo_ON(wemo)
