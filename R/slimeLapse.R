@@ -14,12 +14,12 @@ slimeLapse <- function(cams, wemo) {
 
   for (i in 1:length(times)) {
     magicLamp::wemo_ON(wemo)
-    Sys.sleep(2)
+    Sys.sleep(1)
 
     grabPicture(cams)
-
     print(paste0("Last picture taken at: ", Sys.time()))
 
+    Sys.sleep(1)
     magicLamp::wemo_OFF(wemo)
 
     if (i < length(times)) {
