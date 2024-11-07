@@ -13,14 +13,18 @@ slimeLapse <- function(cams, wemo) {
   pb <- progress::progress_bar$new(total = length(times), format = "Progress [:bar] :percent")
 
   for (i in 1:length(times)) {
-    magicLamp::wemo_ON(wemo)
+    while(magicLamp::wemo_STATE(wemo)$state == "OFF") {
+      magicLamp::wemo_ON(wemo)
+    }
     Sys.sleep(2)
 
     grabPicture(cams)
     print(paste0("Last picture taken at: ", Sys.time()))
 
-    Sys.sleep(3)
-    magicLamp::wemo_OFF(wemo)
+    Sys.sleep(2)
+    while(magicLamp::wemo_STATE(wemo)$state == "ON") {
+      magicLamp::wemo_OFF(wemo)
+    }
 
     if (i < length(times)) {
       Sys.sleep((times[i + 1] - now()) / 1000)
