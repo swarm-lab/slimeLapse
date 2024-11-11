@@ -17,6 +17,7 @@ slimeLapse <- function(cams, wemo) {
     while(check | is.na(check)) {
       magicLamp::wemo_ON(wemo)
       check <- magicLamp::wemo_STATE(wemo)$state == "OFF"
+      Sys.sleep(0.1)
     }
 
     Sys.sleep(2)
@@ -30,6 +31,7 @@ slimeLapse <- function(cams, wemo) {
     while(check | is.na(check)) {
       magicLamp::wemo_OFF(wemo)
       check <- magicLamp::wemo_STATE(wemo)$state == "ON"
+      Sys.sleep(0.1)
     }
 
     if (i < length(times)) {
