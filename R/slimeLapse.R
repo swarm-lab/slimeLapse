@@ -13,10 +13,10 @@ slimeLapse <- function(cams, wemo) {
   pb <- progress::progress_bar$new(total = length(times), format = "Progress [:bar] :percent")
 
   for (i in 1:length(times)) {
-    check <- magicLamp::wemo_STATE(wemo)$state == "OFF"
+    check <- tryCatch(magicLamp::wemo_STATE(wemo)$state == "OFF", error = function(e) NA)
     while(check | is.na(check)) {
       magicLamp::wemo_ON(wemo)
-      check <- magicLamp::wemo_STATE(wemo)$state == "OFF"
+      check <- tryCatch(magicLamp::wemo_STATE(wemo)$state == "OFF", error = function(e) NA)
       Sys.sleep(0.1)
     }
 
@@ -27,10 +27,10 @@ slimeLapse <- function(cams, wemo) {
 
     Sys.sleep(2)
 
-    check <- magicLamp::wemo_STATE(wemo)$state == "ON"
+    check <- tryCatch(magicLamp::wemo_STATE(wemo)$state == "ON", error = function(e) NA)
     while(check | is.na(check)) {
       magicLamp::wemo_OFF(wemo)
-      check <- magicLamp::wemo_STATE(wemo)$state == "ON"
+      check <- tryCatch(magicLamp::wemo_STATE(wemo)$state == "ON", error = function(e) NA)
       Sys.sleep(0.1)
     }
 
