@@ -15,8 +15,12 @@ slimeLapse <- function(cams, wemo) {
   for (i in 1:length(times)) {
     check <- tryCatch(magicLamp::wemo_STATE(wemo)$state == "OFF", error = function(e) NA)
     while(check | is.na(check)) {
-      magicLamp::wemo_ON(wemo)
-      check <- tryCatch(magicLamp::wemo_STATE(wemo)$state == "OFF", error = function(e) NA)
+      check <- tryCatch(magicLamp::wemo_ON(wemo)$success, error = function(e) NA)
+
+      if (check | is.na(check)) {
+        check <- tryCatch(magicLamp::wemo_STATE(wemo)$state == "OFF", error = function(e) NA)
+      }
+      
       Sys.sleep(0.1)
     }
 
@@ -29,8 +33,12 @@ slimeLapse <- function(cams, wemo) {
 
     check <- tryCatch(magicLamp::wemo_STATE(wemo)$state == "ON", error = function(e) NA)
     while(check | is.na(check)) {
-      magicLamp::wemo_OFF(wemo)
-      check <- tryCatch(magicLamp::wemo_STATE(wemo)$state == "ON", error = function(e) NA)
+      check <- tryCatch(magicLamp::wemo_OFF(wemo)$success, error = function(e) NA)
+      
+      if (check | is.na(check)) {
+        check <- tryCatch(magicLamp::wemo_STATE(wemo)$state == "ON", error = function(e) NA)
+      }
+
       Sys.sleep(0.1)
     }
 
